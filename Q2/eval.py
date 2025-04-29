@@ -37,7 +37,7 @@ def record_video(env, agent):
         frame = env.render()
         frames.append(np.array(frame))
         action = agent.act(state)
-        next_state, reward, terminated, truncated, _= env.step(action)
+        next_state, reward, terminated, truncated, _ = env.step(action)
         state = next_state
 
         if terminated or truncated:
