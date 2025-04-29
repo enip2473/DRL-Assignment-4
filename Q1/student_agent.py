@@ -1,7 +1,14 @@
 import gymnasium as gym
 import numpy as np
+from train import SACAgent
 
-# Do not modify the input of the 'act' function and the '__init__' function. 
+env = gym.make("Pendulum-v1") # Use render_mode="human" to watch
+state_dim = env.observation_space.shape[0]
+action_dim = env.action_space.shape[0]
+action_bound = env.action_space.high[0] # Assumes symmetric action space centered at 0
+agent = SACAgent(state_dim, action_dim, action_bound)
+agent.load("sac_pendulum.pth")
+
 class Agent(object):
     """Agent that acts randomly."""
     def __init__(self):
@@ -10,4 +17,5 @@ class Agent(object):
         self.action_space = gym.spaces.Box(-2.0, 2.0, (1,), np.float32)
 
     def act(self, observation):
-        return self.action_space.sample()
+        action = agent.select_action(observation, evaluate=True)
+        return action
